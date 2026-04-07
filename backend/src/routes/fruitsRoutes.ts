@@ -3,7 +3,10 @@ import { addFruit, getAllFruits, updateFruit } from "../controllers/fruitsContro
 
 const router = express.Router()
 
+//customer
 router.get('/', getAllFruits)
+
+//owner
 router.post('/', addFruit)
 router.put('/:id', updateFruit)
 

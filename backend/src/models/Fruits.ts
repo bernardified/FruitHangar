@@ -12,12 +12,13 @@ const fruitSchema = new mongoose.Schema({
     }},
   price: { 
     type: Number, 
-    required: true, 
+    required: true,
+    min: 0,
     set: (val: number) => Math.round(val*100)/100 },
   stock: { 
     type: Number, 
     required: true, 
-    default: 0 },
+    min: 0 },
   image: { 
     type: String,
     default: "https://unsplash.com/photos/orange-fruit-U1iYwZ8Dx7k"}

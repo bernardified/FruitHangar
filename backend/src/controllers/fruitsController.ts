@@ -31,7 +31,8 @@ export async  function updateFruit (req: Request, res:Response) {
     try {
         const updateData = req.body
         const updatedFruit = await Fruit.findByIdAndUpdate(
-            req.params.id,{$set: updateData},{new:true})
+            req.params.id,{$set: updateData},
+            {returnDocument:'after', runValidators:true})
         if (!updatedFruit) {
             return res.status(404).json({message: "Fruit not found"})    
         }
