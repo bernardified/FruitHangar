@@ -11,8 +11,9 @@ app.use(express.json())
 app.use("/api/fruits", fruitsRoutes)
 app.use("/api/orders", ordersRoutes)
 
+const PORT = process.env.PORT
 connectDB().then(() => {
-    app.listen(5142, () => {
-        console.log("Server started on PORT: 5142")
+    app.listen(process.env.PORT, () => {
+        console.log("Server started on PORT: ", PORT)
     })    
 })

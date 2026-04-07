@@ -1,19 +1,24 @@
 import type { Request, Response} from 'express'
+import Fruit from '../models/Fruits'
 
 //1. Get all fruits (Customer and Owner)
-export function getAllFruits (req: Request, res: Response) {
+export async function getAllFruits (req: Request, res: Response) {
     try {
-        res.status(200).json({message: "Fruits inventory received "})
+        const fruits = await Fruit.find() 
+        res.status(200).json(fruits)
     } catch (error) {
         console.log("Error getting all fruits", error)
         res.status(500).json({message: "Internal server error"})
-    }
+    } 
 }
 
 //2. (Optional) Add a  new fruit (Owner)
-export function addFruit (req: Request, res:Response) {
+export async function addFruit (req: Request, res:Response) {
     try {
-        res.status(201).json({message: "New fruit added successfully"})
+        const {name, price, stock, image} = req.body
+        const fruit = new Fruit({name, price, stock, image})
+        const savedFruit = await fruit.save()
+        res.status(201).json({message: "New fruit added successfully", savedFruit})
     } catch (error) {
         console.log("Error adding fruit", error)
         res.status(500).json({message: "Internal server error"})       
@@ -22,9 +27,15 @@ export function addFruit (req: Request, res:Response) {
 
 
 //3. (Optional) Update a fruit stock (Owner)
-export function updateFruit (req: Request, res:Response) {
+export async  function updateFruit (req: Request, res:Response) {
     try {
-        res.status(200).json({message: "Fruit inventory updated successfully"})       
+        const updateData = req.body
+        const updatedFruit = await Fruit.findByIdAndUpdate(
+            req.params.id,{$set: updateData},{new:true})
+        if (!updatedFruit) {
+            return res.status(404).json({message: "Fruit not found"})    
+        }
+        res.status(200).json({message: "Fruit inventory updated successfully", updatedFruit})       
     } catch (error) {
         console.log("Error updated fruit", error)
         res.status(500).json({message: "Internal server error"})          
