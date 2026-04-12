@@ -4,14 +4,15 @@ import toast from "react-hot-toast"
 
 import type { CartItem, Fruit } from "./types/Fruits"
 import HomePage from "./pages/HomePage"
-import CartPage from "./pages/CartPage"
 import InventoryPage from "./pages/InventoryPage"
 import OrdersPage from "./pages/OrdersPage"
 import NavBar from "./components/NavBar"
+import CartDrawer from "./components/CartDrawer"
 
 
 const App = () => {
   const [cart, setCart] = useState<CartItem[]>([])
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const addToCart = (fruit: Fruit, quantity: number) => {
     try {
       setCart(prevCart => {
@@ -33,16 +34,24 @@ const App = () => {
 
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0)
   const totalAmount = cart.reduce((total, item) => total + (item.quantity * item.price),0)
-  
+
   return (
     <div>
-      <NavBar cartCount={totalItems} totalAmount={totalAmount}/>
-      <Routes>
-        <Route path="/" element={<HomePage onAddToCart = {addToCart}/>} />
-        <Route path="/cart" element={<CartPage cart={cart} />} />
-        <Route path="/admin" element={<InventoryPage />} />
-        <Route path="/admin/orders" element={<OrdersPage />} />
-      </Routes>      
+      <CartDrawer 
+        cart={cart}
+        totalAmount={totalAmount}
+        isOpen={isDrawerOpen}
+        setIsOpen={setIsDrawerOpen}>
+        <NavBar 
+          cartCount={totalItems} 
+          totalAmount={totalAmount}
+          onOpenDrawer={() => setIsDrawerOpen(true)}/>
+        <Routes>
+          <Route path="/" element={<HomePage onAddToCart = {addToCart}/>} />
+          <Route path="/admin" element={<InventoryPage />} />
+          <Route path="/admin/orders" element={<OrdersPage />} />
+        </Routes>  
+      </CartDrawer>    
     </div>
   )
 }

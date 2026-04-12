@@ -4,9 +4,10 @@ import { ShoppingBasket } from "lucide-react"
 interface NavBarProps {
     cartCount: number
     totalAmount: number
+    onOpenDrawer: () => void
 }
 
-const NavBar = ({cartCount, totalAmount}:NavBarProps) => {
+const NavBar = ({cartCount, totalAmount, onOpenDrawer}:NavBarProps) => {
   return (
     <header>
         <div className="navbar bg-secondary text-primary-content shadow-lg px-4 lg:px-20 flex items-center gap-1">
@@ -34,7 +35,7 @@ const NavBar = ({cartCount, totalAmount}:NavBarProps) => {
             <div className="flex-none gap-4 justify-end">
                 {/* Cart Icon */}
                 <div className="dropdown dropdown-end">
-                    <div className="btn btn-ghost btn-circle">
+                    <div className="btn btn-ghost btn-circle" onClick={onOpenDrawer}>
                         <div className="indicator">
                             <ShoppingBasket className="size-8" />
                             {cartCount > 0 && (<span className="badge badge-sm badge-primary indicator-item">{cartCount}</span>)}
