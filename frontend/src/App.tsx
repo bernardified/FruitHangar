@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { Route, Routes } from "react-router"
+import toast from "react-hot-toast"
 
+import type { CartItem, Fruit } from "./types/Fruits"
 import HomePage from "./pages/HomePage"
 import CartPage from "./pages/CartPage"
 import InventoryPage from "./pages/InventoryPage"
 import OrdersPage from "./pages/OrdersPage"
-import type { CartItem, Fruit } from "./types/Fruits"
-import toast from "react-hot-toast"
+import NavBar from "./components/NavBar"
 
 
 const App = () => {
@@ -29,9 +30,13 @@ const App = () => {
         toast.error("Failed adding to cart")
     }
   }
-  console.log(cart)
+
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0)
+  const totalAmount = cart.reduce((total, item) => total + (item.quantity * item.price),0)
+  
   return (
     <div>
+      <NavBar cartCount={totalItems} totalAmount={totalAmount}/>
       <Routes>
         <Route path="/" element={<HomePage onAddToCart = {addToCart}/>} />
         <Route path="/cart" element={<CartPage cart={cart} />} />

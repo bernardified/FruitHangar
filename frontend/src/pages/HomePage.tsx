@@ -2,7 +2,6 @@ import { useState, useEffect} from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-import NavBar from '../components/NavBar'
 import type { Fruit } from '../types/Fruits'
 import FruitCard from '../components/FruitCard'
 
@@ -31,8 +30,6 @@ const HomePage = ({onAddToCart}: HomePageProps) => {
 
   return (
     <div className='min-h-screen'>
-      <NavBar />
-
       <header className="py-10 px-4 text-center">
         <h1 className="text-5xl font-bold mb-2">Available Stock</h1>
         <p className="text-lg opacity-70">Fresh Daily. Farm to Table</p>
@@ -54,10 +51,7 @@ const HomePage = ({onAddToCart}: HomePageProps) => {
             ))}
           </div>
         )}
-
       </div>
-
-
     </div>
   )
 }
