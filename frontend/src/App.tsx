@@ -77,14 +77,15 @@ const App = () => {
     }
 
     const sanitisedItems: OrderItem[] = cart.map(item => ({
-      fruitId: item._id, quantity: item.quantity}))
+      fruitName: item.name, fruitId: item._id, quantity: item.quantity}))
     const orderData:Order = {
       customerName: customerName,
       items: sanitisedItems,
       totalAmount: totalAmount}
     try {
       await axios.post("http://localhost:5142/api/orders", orderData)
-      await fetchFruits()
+      await fetchFruits() //fetch again to uupdate stock count 
+
       toast.success(`Order submitted for ${customerName}`)
       setCart([])
       setCustomerName("")

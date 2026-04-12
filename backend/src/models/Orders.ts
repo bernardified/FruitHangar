@@ -4,6 +4,7 @@ export interface IOrder extends Document {
     customerName: string
     //from customer's cart
     items: {
+        fruitName: string
         fruitId: mongoose.Types.ObjectId
         quantity: number
     }[];
@@ -17,7 +18,12 @@ const orderSchema = new mongoose.Schema<IOrder>({
         type: String, 
         required: true },
     items: [
-        {
+        {   
+            fruitName: { 
+                type: String, 
+                required: true 
+            },
+
             fruitId: { 
                 type: mongoose.Schema.Types.ObjectId, 
                 ref: 'Fruit',

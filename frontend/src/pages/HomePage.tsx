@@ -9,7 +9,6 @@ interface HomePageProps {
 
 const HomePage = ({fruits, isLoading, onAddToCart}: HomePageProps) => {
 
-
   return (
     <div className='min-h-screen'>
       <header className="py-10 px-4 text-center">

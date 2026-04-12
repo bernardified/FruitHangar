@@ -12,6 +12,7 @@ export interface CartItem extends Fruit {
 
 //item in the order
 export interface OrderItem {
+    fruitName: string
     fruitId: string
     quantity: number
 }
@@ -28,5 +29,7 @@ export interface OrderRecord {
     _id: string
     customerName: string
     items: OrderItem[]
+    totalAmount: number
+    status: string
     createdAt: string
 }
