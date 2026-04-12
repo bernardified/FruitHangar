@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { Route, Routes } from "react-router"
 import toast from "react-hot-toast"
+import axios from "axios"
 
-import type { CartItem, Fruit } from "./types/Fruits"
+import type { CartItem, Fruit, Order, OrderItem } from "./types/Fruits"
 import HomePage from "./pages/HomePage"
 import InventoryPage from "./pages/InventoryPage"
 import OrdersPage from "./pages/OrdersPage"
@@ -13,6 +14,7 @@ import CartDrawer from "./components/CartDrawer"
 const App = () => {
   const [cart, setCart] = useState<CartItem[]>([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [customerName, setCustomerName] = useState<string>("")
 
   const addToCart = (fruit: Fruit, quantity: number) => {
     try {
@@ -47,6 +49,34 @@ const App = () => {
     }
   }
 
+  const handleCheckout = async () => {
+    if(!customerName.trim()){
+      toast.error("Please input your name before submitting order")
+      return
+    }
+    if (cart.length === 0) {
+      toast.error("Add a fruit to the basket before checking out!")
+      return
+    }
+
+    const sanitisedItems: OrderItem[] = cart.map(item => ({
+      fruitId: item._id, quantity: item.quantity}))
+    const orderData:Order = {
+      customerName: customerName,
+      items: sanitisedItems,
+      totalAmount: totalAmount}
+    try {
+      await axios.post("http://localhost:5142/api/orders", orderData)
+      toast.success(`Order submitted for ${customerName}`)
+      setCart([])
+      setCustomerName("")
+      setIsDrawerOpen(false)
+    } catch (error) {
+      console.log("Error posting order", error)
+      toast.error("Failed to submit order")
+    }
+  }
+
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0)
   const totalAmount = cart.reduce((total, item) => total + (item.quantity * item.price),0)
 
@@ -57,7 +87,10 @@ const App = () => {
         totalAmount={totalAmount}
         isOpen={isDrawerOpen}
         setIsOpen={setIsDrawerOpen}
-        updateQuantity={updateCartQuantity}>
+        updateQuantity={updateCartQuantity}
+        customerName={customerName}
+        setCustomerName={setCustomerName}
+        onCheckout={handleCheckout}>
         <NavBar 
           cartCount={totalItems} 
           totalAmount={totalAmount}
