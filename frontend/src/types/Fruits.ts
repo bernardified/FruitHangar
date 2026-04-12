@@ -5,3 +5,7 @@ export interface Fruit {
     stock: number
     image: string
 }
+
+export interface CartItem extends Fruit {
+    quantity: number
+}

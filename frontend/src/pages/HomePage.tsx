@@ -6,7 +6,11 @@ import NavBar from '../components/NavBar'
 import type { Fruit } from '../types/Fruits'
 import FruitCard from '../components/FruitCard'
 
-const HomePage = () => {
+interface HomePageProps {
+  onAddToCart: (fruit: Fruit, quantity: number) => void
+}
+
+const HomePage = ({onAddToCart}: HomePageProps) => {
   const [fruits, setFruits] = useState<Fruit[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -24,8 +28,6 @@ const HomePage = () => {
     }
     fetchFruits()
   },[])
-
-  console.log(fruits)
 
   return (
     <div className='min-h-screen'>
@@ -47,7 +49,8 @@ const HomePage = () => {
             {fruits.map(fruit => (
               <FruitCard 
                 key={fruit._id}
-                fruit={fruit}/>
+                fruit={fruit}
+                onAddToCart={onAddToCart}/>
             ))}
           </div>
         )}

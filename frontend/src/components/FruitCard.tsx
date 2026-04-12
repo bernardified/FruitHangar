@@ -3,7 +3,7 @@ import type { Fruit } from "../types/Fruits"
 
 interface FruitCardProps {
     fruit: Fruit
-    onAddToCart?: (fruit: Fruit, quantity: number) => void
+    onAddToCart: (fruit: Fruit, quantity: number) => void
 }
 
 const FruitCard = ({ fruit, onAddToCart }: FruitCardProps) => {
@@ -50,7 +50,7 @@ const FruitCard = ({ fruit, onAddToCart }: FruitCardProps) => {
                 <button 
                     className="btn btn-primary btn-sm"
                     disabled={fruit.stock === 0}
-                    onClick={() => onAddToCart?.(fruit,quantity)}>
+                    onClick={() => onAddToCart(fruit,quantity)}>
                     {fruit.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                 </button>
             </div>
