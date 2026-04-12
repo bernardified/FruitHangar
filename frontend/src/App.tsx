@@ -1,20 +1,37 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Route, Routes } from "react-router"
 import toast from "react-hot-toast"
 import axios from "axios"
 
 import type { CartItem, Fruit, Order, OrderItem } from "./types/Fruits"
 import HomePage from "./pages/HomePage"
-import InventoryPage from "./pages/InventoryPage"
 import OrdersPage from "./pages/OrdersPage"
 import NavBar from "./components/NavBar"
 import CartDrawer from "./components/CartDrawer"
 
 
 const App = () => {
+  const [fruits, setFruits] = useState<Fruit[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [cart, setCart] = useState<CartItem[]>([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [customerName, setCustomerName] = useState<string>("")
+
+  const fetchFruits = async() => {
+    try {
+      const res = await axios.get("http://localhost:5142/api/fruits")
+      setFruits(res.data)
+    } catch (error) {
+      toast.error("Failed to retrieve fruits inventory")
+      console.log("Error fetching fruits: ", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchFruits()
+  },[])
 
   const addToCart = (fruit: Fruit, quantity: number) => {
     try {
@@ -67,6 +84,7 @@ const App = () => {
       totalAmount: totalAmount}
     try {
       await axios.post("http://localhost:5142/api/orders", orderData)
+      await fetchFruits()
       toast.success(`Order submitted for ${customerName}`)
       setCart([])
       setCustomerName("")
@@ -96,8 +114,10 @@ const App = () => {
           totalAmount={totalAmount}
           onOpenDrawer={() => setIsDrawerOpen(true)}/>
         <Routes>
-          <Route path="/" element={<HomePage onAddToCart = {addToCart}/>} />
-          <Route path="/admin" element={<InventoryPage />} />
+          <Route path="/" element={<HomePage 
+            onAddToCart = {addToCart}
+            fruits={fruits}
+            isLoading={isLoading}/>} />
           <Route path="/admin/orders" element={<OrdersPage />} />
         </Routes>  
       </CartDrawer>    

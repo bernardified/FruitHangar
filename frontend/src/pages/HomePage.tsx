@@ -1,32 +1,14 @@
-import { useState, useEffect} from 'react'
-import axios from 'axios'
-import toast from 'react-hot-toast'
-
 import type { Fruit } from '../types/Fruits'
 import FruitCard from '../components/FruitCard'
 
 interface HomePageProps {
+  fruits:Fruit[]
+  isLoading: boolean
   onAddToCart: (fruit: Fruit, quantity: number) => void
 }
 
-const HomePage = ({onAddToCart}: HomePageProps) => {
-  const [fruits, setFruits] = useState<Fruit[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+const HomePage = ({fruits, isLoading, onAddToCart}: HomePageProps) => {
 
-  useEffect(() => {
-    const fetchFruits = async() => {
-      try {
-        const res = await axios.get("http://localhost:5142/api/fruits")
-        setFruits(res.data)
-      } catch (error) {
-        toast.error("Failed to retrieve fruits inventory")
-        console.log("Error fetching fruits: ", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    fetchFruits()
-  },[])
 
   return (
     <div className='min-h-screen'>
