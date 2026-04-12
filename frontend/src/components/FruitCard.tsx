@@ -10,8 +10,12 @@ const FruitCard = ({ fruit, onAddToCart }: FruitCardProps) => {
     const [quantity, setQuantity] = useState<number>(1)
 
     const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setQuantity(parseInt(event.target.value))
-  };
+        setQuantity(parseInt(event.target.value))};
+
+    const handleAddCart = () => {
+        onAddToCart(fruit, quantity)
+        setQuantity(1)
+    }
     return (
         <div className="card bg-base-200 shadow-xl border-2 border-base-300 transition-all">
             <figure className="px-4 pt-4">
@@ -50,7 +54,7 @@ const FruitCard = ({ fruit, onAddToCart }: FruitCardProps) => {
                 <button 
                     className="btn btn-primary btn-sm"
                     disabled={fruit.stock === 0}
-                    onClick={() => onAddToCart(fruit,quantity)}>
+                    onClick={() => handleAddCart}>
                     {fruit.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                 </button>
             </div>

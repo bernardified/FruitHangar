@@ -12,7 +12,7 @@ const HomePage = (homeProps: HomePageProps) => {
 
   return (
     <div className='min-h-screen'>
-      <header className="py-10 px-4 text-center">
+      <header className="pt-10 px-4 text-center">
         <h1 className="text-5xl font-bold mb-2">Available Stock</h1>
         <p className="text-lg opacity-70">Fresh Daily. Farm to Table</p>
       </header>
