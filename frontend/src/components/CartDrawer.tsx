@@ -15,7 +15,7 @@ interface CartDrawerProps {
 
 const CartDrawer = ( cartProps: CartDrawerProps) => {
   return (
-    <div className="drawer drawer-end">
+    <div className="drawer drawer-end z-[1000]">
       <input 
         id="cart-drawer" 
         type="checkbox" 
@@ -28,7 +28,7 @@ const CartDrawer = ( cartProps: CartDrawerProps) => {
         {cartProps.children}
       </div>
 
-      <div className="drawer-side z-[60]">
+      <div className="drawer-side z-[1001]">
         <label className="drawer-overlay"></label>
         <div className="menu p-4 w-80 min-h-full bg-base-200 text-base-content border-l-2 border-accent">
             <div className="flex justify-between items-center mb-6">
@@ -61,7 +61,7 @@ const CartDrawer = ( cartProps: CartDrawerProps) => {
                 </div>
 
                 <span className="font-black text-primary">${(item.quantity * item.price).toFixed(2)}</span>
-                </div>))
+                </div>)) 
             )}
         </div>
 
@@ -81,7 +81,7 @@ const CartDrawer = ( cartProps: CartDrawerProps) => {
             </div>
             <div className="bg-base-300 p-4 rounded-xl">
                 <div className="flex justify-between font-black text-neutral">
-                    <span>EST. TOTAL:</span>
+                    <span>TOTAL COST:</span>
                     <span className="text-accent">${cartProps.totalAmount.toFixed(2)}</span>
                 </div>
                 <button className="btn btn-accent w-full mt-4 shadow-lg uppercase"
