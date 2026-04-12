@@ -13,6 +13,7 @@ import CartDrawer from "./components/CartDrawer"
 const App = () => {
   const [cart, setCart] = useState<CartItem[]>([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+
   const addToCart = (fruit: Fruit, quantity: number) => {
     try {
       setCart(prevCart => {
@@ -31,6 +32,20 @@ const App = () => {
         toast.error("Failed adding to cart")
     }
   }
+  const updateCartQuantity = (fruitId: string, difference: number) => {
+    try {
+      setCart(prevCart => {
+        const newCart = prevCart.map(item => {
+          if(item._id === fruitId)  {
+            return {...item, quantity: Math.min(item.quantity + difference, item.stock)}
+          }
+          return item
+        })
+        return newCart.filter(item => item.quantity > 0)})
+    } catch (error) {
+      console.log("Error updating quantity in cart", error)
+    }
+  }
 
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0)
   const totalAmount = cart.reduce((total, item) => total + (item.quantity * item.price),0)
@@ -41,7 +56,8 @@ const App = () => {
         cart={cart}
         totalAmount={totalAmount}
         isOpen={isDrawerOpen}
-        setIsOpen={setIsDrawerOpen}>
+        setIsOpen={setIsDrawerOpen}
+        updateQuantity={updateCartQuantity}>
         <NavBar 
           cartCount={totalItems} 
           totalAmount={totalAmount}

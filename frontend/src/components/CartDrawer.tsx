@@ -7,9 +7,10 @@ interface CartDrawerProps {
     totalAmount: number
     isOpen: boolean
     setIsOpen: (open: boolean) => void
+    updateQuantity: (id: string, difference: number) => void
 }
 
-const CartDrawer = ({children, cart, totalAmount, isOpen, setIsOpen }: CartDrawerProps) => {
+const CartDrawer = ({children, cart, totalAmount, isOpen, setIsOpen, updateQuantity }: CartDrawerProps) => {
   return (
     <div className="drawer drawer-end">
       <input 
@@ -43,11 +44,21 @@ const CartDrawer = ({children, cart, totalAmount, isOpen, setIsOpen }: CartDrawe
                 <div key={item._id} className="flex justify-between items-center mb-4 bg-base-100 p-3 rounded-lg border border-base-300 shadow-sm">
                 <div className="flex flex-col">
                     <span className="font-black text-sm">{item.name}</span>
-                    <span className="font-bold text-xs opacity-60">{item.quantity} x ${item.price.toFixed(2)}</span>
+                    <span className="font-bold text-xs opacity-60">${item.price.toFixed(2)} / unit</span>
                 </div>
+
+                <div className='flex items-center gap-3'>
+                    <div className="join border border-base-300">
+                        <button className='join-item btn btn-sx-btn-ghost' 
+                            onClick={() => updateQuantity(item._id, -1)}>-</button>
+                        <button className='join-item btn btn-sx-btn-ghost' 
+                            onClick={() => updateQuantity(item._id, 1)} 
+                            disabled={item.quantity >= item.stock}>+</button>
+                    </div> 
+                </div>
+
                 <span className="font-black text-primary">${(item.quantity * item.price).toFixed(2)}</span>
-                </div>
-            ))
+                </div>))
             )}
         </div>
 
