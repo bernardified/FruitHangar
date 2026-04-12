@@ -33,3 +33,5 @@ export interface OrderRecord {
     status: string
     createdAt: string
 }
+
+export type UserRole = 'CUSTOMER' | 'OWNER'

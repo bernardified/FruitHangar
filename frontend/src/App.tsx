@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react"
-import { Route, Routes } from "react-router"
+import { Navigate, Route, Routes } from "react-router"
 import toast from "react-hot-toast"
 import axios from "axios"
 
-import type { CartItem, Fruit, Order, OrderItem } from "./types/Fruits"
+import { type UserRole, type CartItem, type Fruit, type Order, type OrderItem } from "./types/Fruits"
 import HomePage from "./pages/HomePage"
 import OrdersPage from "./pages/OrdersPage"
 import NavBar from "./components/NavBar"
 import CartDrawer from "./components/CartDrawer"
-
 
 const App = () => {
   const [fruits, setFruits] = useState<Fruit[]>([])
@@ -16,6 +15,14 @@ const App = () => {
   const [cart, setCart] = useState<CartItem[]>([])
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [customerName, setCustomerName] = useState<string>("")
+  const [role, setRole] = useState<UserRole>('CUSTOMER')
+
+  const toggleRole = () => {
+    setRole(prevRole => 
+        prevRole === 'CUSTOMER' ? 'OWNER' : 'CUSTOMER'
+    )
+    toast(`Access Level: ${role === 'CUSTOMER' ? 'OWNER' : 'CUSTOMER'}`)
+  }
 
   const fetchFruits = async() => {
     try {
@@ -110,16 +117,20 @@ const App = () => {
         customerName={customerName}
         setCustomerName={setCustomerName}
         onCheckout={handleCheckout}>
-        <NavBar 
+        <NavBar
+          role = {role}
+          onToggleRole = {toggleRole}
           cartCount={totalItems} 
           totalAmount={totalAmount}
           onOpenDrawer={() => setIsDrawerOpen(true)}/>
         <Routes>
           <Route path="/" element={<HomePage 
+            role={role}
             onAddToCart = {addToCart}
             fruits={fruits}
             isLoading={isLoading}/>} />
-          <Route path="/admin/orders" element={<OrdersPage />} />
+          <Route path="/admin/orders" element={
+              (role=== 'OWNER') ? <OrdersPage /> : <Navigate to="/" />} />
         </Routes>  
       </CartDrawer>    
     </div>
