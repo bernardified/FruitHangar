@@ -10,7 +10,15 @@ const FruitCard = ({ fruit, onAddToCart }: FruitCardProps) => {
     const [quantity, setQuantity] = useState<number>(1)
 
     const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setQuantity(parseInt(event.target.value))};
+        const value = parseInt(event.target.value)
+        if (value > fruit.stock) {
+            setQuantity(fruit.stock); // Force it to the max stock
+        } else if (value < 1 || isNaN(value)) {
+            setQuantity(1); // Force a minimum of 1
+        } else {
+            setQuantity(value);
+        }
+    };
 
     const handleAddCart = () => {
         onAddToCart(fruit, quantity)

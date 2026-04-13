@@ -6,6 +6,19 @@ import Fruit from '../models/Fruits.js'
 export async function submitOrder(req: Request, res: Response) {
     try {
         const {customerName, items, totalAmount} = req.body
+
+        for (const fruitOrder of items) {
+            const fruit = await Fruit.findById(fruitOrder.fruitId);
+            if (!fruit) {
+                return res.status(404).json({ message: `Fruit with ID ${fruitOrder.fruitId} not found` });
+            }
+            if (fruit.stock < fruitOrder.quantity) {
+                return res.status(400).json({ 
+                    message: `Insufficient stock for ${fruit.name}. Available: ${fruit.stock}, Requested: ${fruitOrder.quantity}` 
+                });
+            }
+        }
+
         const newOrder = new Order({
             customerName,
             items,
