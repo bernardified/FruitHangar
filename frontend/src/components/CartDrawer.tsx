@@ -1,5 +1,6 @@
-import React, { type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import type { CartItem } from '../types/Fruits'
+import { ShoppingBag, ShoppingBasket, ShoppingBasketIcon } from 'lucide-react'
 
 interface CartDrawerProps {
     children: ReactNode
@@ -38,8 +39,8 @@ const CartDrawer = ( cartProps: CartDrawerProps) => {
         
             <div className="flex-1 overflow-y-auto">
             {cartProps.cart.length === 0 ? (
-            <div className="text-center mt-10 opacity-40">
-                <p className="text-4xl mb-2">🧺</p>
+            <div className=" flex flex-col text-center mt-10 opacity-40 items-center justify-center">
+                <ShoppingBasket className='size-10'/>
                 <p className="italic">Basket is empty</p>
             </div>
             ) : (

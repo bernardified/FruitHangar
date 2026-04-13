@@ -1,5 +1,5 @@
 import { Link } from "react-router"
-import { ShoppingBasket } from "lucide-react"
+import { ShoppingBasket, User, UserCog, UserRound, UserRoundCog, UserRoundCogIcon } from "lucide-react"
 import type { UserRole } from "../types/Fruits"
 
 interface NavBarProps {
@@ -55,7 +55,7 @@ const NavBar = (nav:NavBarProps) => {
             <div className="dropdown dropdown-end">
                 <div tabIndex={0} className="btn btn-ghost btn-circle avatar size-8">
                     <div className="w-10 rounded-full">
-                        <img alt="User" src="https://api.dicebear.com/7.x/bottts/svg" />
+                        {nav.role === 'CUSTOMER' ? <User className="size-8"/> : <UserCog className="size-8"/>}
                     </div>
                 </div>
                 <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-base-300">
