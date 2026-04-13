@@ -1,5 +1,5 @@
 import { Link } from "react-router"
-import { ShoppingBasket, User, UserCog, UserRound, UserRoundCog, UserRoundCogIcon } from "lucide-react"
+import { ShoppingBasket, User, UserCog } from "lucide-react"
 import type { UserRole } from "../types/Fruits"
 
 interface NavBarProps {

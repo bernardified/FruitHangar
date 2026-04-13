@@ -1,7 +1,7 @@
-import axios from "axios"
 import { useState } from "react"
 import toast from "react-hot-toast"
 import type { Fruit } from "../types/Fruits"
+import api from "../lib/axios"
 
 
 export const useFruits = () => {
@@ -10,7 +10,7 @@ export const useFruits = () => {
 
     const fetchFruits = async() => {
         try {
-        const res = await axios.get("http://localhost:5142/api/fruits")
+        const res = await api.get("/fruits")
         setFruits(res.data)
         } catch (error) {
         toast.error("Failed to retrieve fruits inventory")

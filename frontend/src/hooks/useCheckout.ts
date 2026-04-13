@@ -1,6 +1,6 @@
 import toast from "react-hot-toast"
 import type { CartItem, Order, OrderItem } from "../types/Fruits"
-import axios from "axios"
+import api from "../lib/axios"
 
 interface CheckoutProps {
     cart: CartItem[]
@@ -30,7 +30,7 @@ export const useCheckout = (props:CheckoutProps) => {
             items: sanitisedItems,
             totalAmount: props.totalAmount}
         try {
-            await axios.post("http://localhost:5142/api/orders", orderData)
+            await api.post("/orders", orderData)
             await props.fetchFruits() //fetch again to uupdate stock count 
 
             toast.success(`Order submitted for ${props.customerName}`)

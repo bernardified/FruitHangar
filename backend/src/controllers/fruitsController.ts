@@ -1,5 +1,5 @@
 import type { Request, Response} from 'express'
-import Fruit from '../models/Fruits'
+import Fruit from '../models/Fruits.js'
 
 //1. Get all fruits (Customer and Owner)
 export async function getAllFruits (req: Request, res: Response) {

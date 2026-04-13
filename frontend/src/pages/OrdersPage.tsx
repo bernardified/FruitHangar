@@ -1,8 +1,8 @@
-import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import type { OrderRecord } from '../types/Fruits'
 import { formatDate } from '../lib/utils'
+import api from '../lib/axios'
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState<OrderRecord[]>([])
@@ -10,7 +10,7 @@ const OrdersPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:5142/api/orders")
+      const res = await api.get("/orders")
       setOrders(res.data.sort((a:any, b:any) => 
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()))
     } catch (error) {

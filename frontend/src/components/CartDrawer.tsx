@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react'
 import type { CartItem } from '../types/Fruits'
-import { ShoppingBag, ShoppingBasket, ShoppingBasketIcon } from 'lucide-react'
+import { ShoppingBasket} from 'lucide-react'
 
 interface CartDrawerProps {
     children: ReactNode

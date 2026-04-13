@@ -1,6 +1,6 @@
 import type { Request, Response} from 'express'
-import Order from '../models/Orders'
-import Fruit from '../models/Fruits'
+import Order from '../models/Orders.js'
+import Fruit from '../models/Fruits.js'
 
 //1. Submit Order (Customer). Accepts the cart data, updates the mongoDB stock, save the order
 export async function submitOrder(req: Request, res: Response) {
