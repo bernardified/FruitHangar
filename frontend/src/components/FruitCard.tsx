@@ -54,7 +54,7 @@ const FruitCard = ({ fruit, onAddToCart }: FruitCardProps) => {
                 <button 
                     className="btn btn-primary btn-sm"
                     disabled={fruit.stock === 0}
-                    onClick={() => handleAddCart}>
+                    onClick={() => handleAddCart()}>
                     {fruit.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
                 </button>
             </div>
