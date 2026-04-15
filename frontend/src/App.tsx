@@ -12,6 +12,10 @@ import useFruits from "./hooks/useFruits"
 import { useCheckout } from "./hooks/useCheckout"
 
 const App = () => {
+  /**const [role, setRole] = useState<UserRole>(() => {
+    const savedRole = localStorage.getItem('role') as UserRole
+    return !savedRole ? 'CUSTOMER' : savedRole
+  })*/
   const [role, setRole] = useState<UserRole>('CUSTOMER')
   const {fruits, isLoading, fetchFruits} = useFruits()
   const {cart, setCart, totalItems, totalAmount, customerName, setCustomerName,
@@ -22,9 +26,11 @@ const App = () => {
   },[])
   
   const toggleRole = () => {
-    setRole(prevRole => 
-        prevRole === 'CUSTOMER' ? 'OWNER' : 'CUSTOMER'
-    )
+    setRole(prevRole => {
+        const newRole = prevRole === 'CUSTOMER' ? 'OWNER' : 'CUSTOMER'
+        /**localStorage.setItem('role', JSON.stringify(newRole))*/
+        return newRole
+    })
     toast(`Access Level: ${role === 'CUSTOMER' ? 'OWNER' : 'CUSTOMER'}`)
   }
 

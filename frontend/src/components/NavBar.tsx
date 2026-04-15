@@ -34,7 +34,6 @@ const NavBar = (nav:NavBarProps) => {
 
         {/* Actions container */}
         <div className="flex-none gap-4 justify-end">
-
             {/* Admin dashboard. Hidden if userRole === 'CUSTOMER'*/}    
             {nav.role === 'OWNER' && (
                 <Link to="/admin/orders" className="btn btn-ghost btn-sm font-black text-sm">

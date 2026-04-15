@@ -19,23 +19,31 @@ export async function submitOrder(req: Request, res: Response) {
             }
         }
 
+        //update inventory numbers at the same time
+        const inventoryUpdates = items.map((item:any) => {
+            return Fruit.findOneAndUpdate(
+                {
+                    _id: item.fruitId,
+                    stock: {$gte: item.quantity}
+                }, 
+                {$inc: {stock : -item.quantity}},
+                {returnDocument:'after', runValidators:true}
+            )
+        })
+        const result = await Promise.all(inventoryUpdates)
+        if (result.includes(null)) {
+             return res.status(400).json({message: "Stock level changed. Please refresh and try again"})    
+        }
+
         const newOrder = new Order({
             customerName,
             items,
             totalAmount,
             status: "Pending"
-        })
-        const savedOrder = await newOrder.save()
+        });
+        
+        const savedOrder = await newOrder.save();
 
-        //update inventory numbers at the same time
-        const inventoryUpdates = items.map((item:any) => {
-            return Fruit.findByIdAndUpdate(
-                item.fruitId, 
-                {$inc: {stock : -item.quantity}},
-                {returnDocument:'after', runValidators:true}
-            )
-        })
-        await Promise.all(inventoryUpdates)
         res.status(201).json({message: "Order submitted and stock updated successfully", savedOrder})      
     } catch (error) {
         console.log("Error submitting order", error)
